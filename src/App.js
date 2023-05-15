@@ -9,16 +9,16 @@ function App() {
 
   const { books, hasMore, loading, error } = useBookSearch(query, pageNum);
 
-  const observer = useRef();
+  const loadMoreObserver = useRef();
   const lastBookElementRef = useCallback((node) => {
     if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver((entries) => {
+    if (loadMoreObserver.current) loadMoreObserver.current.disconnect();
+    loadMoreObserver.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasMore) {
         setPageNum((prevPageNum) => prevPageNum + 1);
       }
     });
-    if (node) observer.current.observe(node);
+    if (node) loadMoreObserver.current.observe(node);
     console.log(node);
   });
 
